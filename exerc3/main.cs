@@ -2,13 +2,14 @@ using System;
 
 class Program {
   public static void Main (string[] args) {
-
+    
+    Program myProgram = new Program();
     String nome;
     DateTime data;
     string format = "dd/MM/yyyy";
     bool validInput = false;
     double salarioAtual, valorEmprestimo;
-    
+
     Console.WriteLine ("Nome do colaborador:");
     nome = Console.ReadLine();
 
@@ -34,9 +35,91 @@ class Program {
     valorEmprestimo = double.Parse(Console.ReadLine());
 
       if(valorEmprestimo % 2 == 0 && (valorEmprestimo <= salarioAtual*2) && (DateTime.Now - data).TotalDays > 1825){
-        Console.WriteLine("Voce atende a todos os requisitos!");
+                                    
+        Console.WriteLine(myProgram.NotasMaiorValor(valorEmprestimo));
+        Console.WriteLine(myProgram.NotasMenorValor(valorEmprestimo));
+
+        Console.WriteLine($"Notas Meio a Meio\n{valorEmprestimo/2} reais em notas de maior valor:");
+        Console.WriteLine(myProgram.NotasMaiorValor(valorEmprestimo/2));
+        Console.WriteLine($"{valorEmprestimo/2} reais em notas de menor valor:");
+        Console.WriteLine(myProgram.NotasMenorValor(valorEmprestimo/2));
+        
       }else{
       Console.WriteLine("Infelizmente voce nao atende aos requisitos para o emprestimo!");
     }
+  }
+
+  String NotasMaiorValor(double valorEmprestimo){
+    int notasDeCem = (int)(valorEmprestimo / 100);
+    int restanteAposCem = (int)(valorEmprestimo % 100);
+    int notasDeCinquenta = restanteAposCem / 50;
+    int restanteAposCinquenta = restanteAposCem % 50;
+    int notasDeVinte = restanteAposCinquenta / 20;
+    int restanteAposVinte = restanteAposCinquenta % 20;
+    int notasDeDez = restanteAposVinte / 10;
+    int restanteAposDez = restanteAposVinte % 10;
+    int notasDeCinco = restanteAposDez / 5;
+    int notasDeDois = restanteAposDez % 5;
+
+    string resultado = "Notas de Maior Valor\n";
+
+    if (notasDeCem > 0)
+    {
+        resultado += $"{notasDeCem} x 100\n";
+    }
+    if (restanteAposCem > 0)
+    {
+        resultado += $"{notasDeCinquenta} x 50\n";
+    }
+    if (notasDeVinte > 0)
+    {
+        resultado += $"{notasDeVinte} x 20\n";
+    }
+    if (notasDeDez > 0)
+    {
+        resultado += $"{notasDeDez} x 10\n";
+    }
+    if (notasDeCinco > 0)
+    {
+        resultado += $"{notasDeCinco} x 5\n";
+    }
+    if (notasDeDois > 0)
+    {
+        resultado += $"{notasDeDois} x 2";
+    }
+    return resultado; 
+  }
+
+  String NotasMenorValor(double valorEmprestimo){
+    int notasDeVinte = (int)(valorEmprestimo / 20);
+    int restanteAposVinte = (int)(valorEmprestimo % 20);
+    int notasDeDez = (restanteAposVinte / 10);
+    int restanteAposDez = restanteAposVinte % 10;
+    int notasDeCinco = restanteAposDez / 5;
+    int notasDeDois = restanteAposDez % 5;
+
+    string resultado = "Notas de Menor Valor\n";
+
+    if (notasDeVinte > 0)
+    {
+        resultado += $"{notasDeVinte} x 20\n";
+    }
+
+    if (notasDeDez > 0)
+    {
+        resultado += $"{notasDeDez} x 10\n";
+    }
+
+    if (notasDeCinco > 0)
+    {
+        resultado += $"{notasDeCinco} x 5\n";
+    }
+
+    if (notasDeDois > 0)
+    {
+        resultado += $"{notasDeDois} x 2";
+    }
+
+    return resultado;
   }
 }
