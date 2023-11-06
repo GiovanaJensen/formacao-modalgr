@@ -34,6 +34,16 @@ class Program {
     Console.WriteLine("Valor emprestimo: ");
     valorEmprestimo = double.Parse(Console.ReadLine());
 
+    do{
+      Console.WriteLine("Valor emprestimo: ");
+      valorEmprestimo = double.Parse(Console.ReadLine());
+      
+      if (valorEmprestimo % 2 != 0)
+      {
+          Console.WriteLine("Insira um valor válido! O valor deve ser múltiplo de 2.");
+      }
+    }while(valorEmprestimo % 2 != 0);
+
       if(valorEmprestimo % 2 == 0 && (valorEmprestimo <= salarioAtual*2) && (DateTime.Now - data).TotalDays > 1825){
                                     
         Console.WriteLine(myProgram.NotasMaiorValor(valorEmprestimo));
@@ -45,7 +55,7 @@ class Program {
         Console.WriteLine(myProgram.NotasMenorValor(valorEmprestimo/2));
         
       }else{
-      Console.WriteLine("Infelizmente voce nao atende aos requisitos para o emprestimo!");
+      Console.WriteLine("Agradecemos seu interesse, mas você não atende os requisitos mínimos do programa");
     }
   }
 
