@@ -2,134 +2,88 @@ using System;
 
 class Program {
   public static void Main (string[] args) {
-    
-    Program myProgram = new Program();
-    String nome;
-    DateTime data;
-    string formato = "dd/MM/yyyy";
-    bool isValido = false;
-    double salarioAtual, valorEmprestimo;
 
-    Console.WriteLine ("Nome do colaborador:");
-    nome = Console.ReadLine();
+    string nome = receberInputString("Nome do colaborador:");
+    DateTime data = receberDataInput("Data de admissao (formato dd/MM/yyyy):");
+    double salarioAtual = ReceberInputNumero("Salario atual:");
+    double valorEmprestimo = VerificarEmprestimo("Valor emprestimo (deve ser múltiplo de 2):", x => x % 2 == 0);
 
-    do
-    {
-        Console.WriteLine("Data de admissao (formato dd/MM/yyyy): ");
-        string dataAdmissao = Console.ReadLine();
+   if (IsElegivel(data, salarioAtual, valorEmprestimo)) {
+            Program myProgram = new Program();
+            Console.WriteLine(myProgram.NotasMaiorValor(valorEmprestimo));
+            Console.WriteLine(myProgram.NotasMenorValor(valorEmprestimo));
 
-        if (DateTime.TryParseExact(dataAdmissao, formato, System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None, out data))
-        {
-            isValido = true;
+            double valorMetadeEmprestimo = valorEmprestimo / 2;
+            Console.WriteLine($"Notas Meio a Meio\n{valorMetadeEmprestimo} reais em notas de maior valor:");
+            Console.WriteLine(myProgram.NotasMaiorValor(valorMetadeEmprestimo));
+            Console.WriteLine($"{valorMetadeEmprestimo} reais em notas de menor valor:");
+            Console.WriteLine(myProgram.NotasMenorValor(valorMetadeEmprestimo));
+        } else {
+            Console.WriteLine("Agradecemos seu interesse, mas você não atende os requisitos mínimos do programa");
         }
-        else
-        {
-            Console.WriteLine("Formato inválido. Tente novamente.");
-        }
-    } while (!validInput);
+   }
 
-    Console.WriteLine("Salario atual: ");
-    salarioAtual = double.Parse(Console.ReadLine());
+  static string receberInputString(string prompt) {
+        Console.WriteLine(prompt);
+        return Console.ReadLine();
+    }
 
-    Console.WriteLine("Valor emprestimo: ");
-    valorEmprestimo = double.Parse(Console.ReadLine());
-
-    do{
-      Console.WriteLine("Valor emprestimo: ");
-      valorEmprestimo = double.Parse(Console.ReadLine());
-      
-      if (valorEmprestimo % 2 != 0)
-      {
-          Console.WriteLine("Insira um valor válido! O valor deve ser múltiplo de 2.");
+    // Function to get date input
+  static DateTime receberDataInput(string prompt) {
+      string formato = "dd/MM/yyyy";
+      DateTime data = DateTime.MinValue; // Initializing with default value
+      bool isValido = false;
+      while (!isValido) {
+          string input = receberInputString(prompt);
+          isValido = DateTime.TryParseExact(input, formato, System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None, out data);
+          if (!isValido) {
+              Console.WriteLine("Formato inválido. Tente novamente.");
+          }
       }
-    }while(valorEmprestimo % 2 != 0);
-
-      if(valorEmprestimo % 2 == 0 && (valorEmprestimo <= salarioAtual*2) && (DateTime.Now - data).TotalDays > 1825){
-                                    
-        Console.WriteLine(myProgram.NotasMaiorValor(valorEmprestimo));
-        Console.WriteLine(myProgram.NotasMenorValor(valorEmprestimo));
-
-        Console.WriteLine($"Notas Meio a Meio\n{valorEmprestimo/2} reais em notas de maior valor:");
-        Console.WriteLine(myProgram.NotasMaiorValor(valorEmprestimo/2));
-        Console.WriteLine($"{valorEmprestimo/2} reais em notas de menor valor:");
-        Console.WriteLine(myProgram.NotasMenorValor(valorEmprestimo/2));
-        
-      }else{
-      Console.WriteLine("Agradecemos seu interesse, mas você não atende os requisitos mínimos do programa");
-    }
+      return data;
   }
 
-  String NotasMaiorValor(double valorEmprestimo){
-    int notasDeCem = (int)(valorEmprestimo / 100);
-    int restanteAposCem = (int)(valorEmprestimo % 100);
-    int notasDeCinquenta = restanteAposCem / 50;
-    int restanteAposCinquenta = restanteAposCem % 50;
-    int notasDeVinte = restanteAposCinquenta / 20;
-    int restanteAposVinte = restanteAposCinquenta % 20;
-    int notasDeDez = restanteAposVinte / 10;
-    int restanteAposDez = restanteAposVinte % 10;
-    int notasDeCinco = restanteAposDez / 5;
-    int notasDeDois = restanteAposDez % 5;
-
-    string resultado = "Notas de Maior Valor\n";
-
-    if (notasDeCem > 0)
-    {
-        resultado += $"{notasDeCem} x 100\n";
-    }
-    if (restanteAposCem > 0)
-    {
-        resultado += $"{notasDeCinquenta} x 50\n";
-    }
-    if (notasDeVinte > 0)
-    {
-        resultado += $"{notasDeVinte} x 20\n";
-    }
-    if (notasDeDez > 0)
-    {
-        resultado += $"{notasDeDez} x 10\n";
-    }
-    if (notasDeCinco > 0)
-    {
-        resultado += $"{notasDeCinco} x 5\n";
-    }
-    if (notasDeDois > 0)
-    {
-        resultado += $"{notasDeDois} x 2";
-    }
-    return resultado; 
-  }
-
-  String NotasMenorValor(double valorEmprestimo){
-    int notasDeVinte = (int)(valorEmprestimo / 20);
-    int restanteAposVinte = (int)(valorEmprestimo % 20);
-    int notasDeDez = (restanteAposVinte / 10);
-    int restanteAposDez = restanteAposVinte % 10;
-    int notasDeCinco = restanteAposDez / 5;
-    int notasDeDois = restanteAposDez % 5;
-
-    string resultado = "Notas de Menor Valor\n";
-
-    if (notasDeVinte > 0)
-    {
-        resultado += $"{notasDeVinte} x 20\n";
+    static double ReceberInputNumero(string prompt) {
+        Console.WriteLine(prompt);
+        return double.Parse(Console.ReadLine());
     }
 
-    if (notasDeDez > 0)
-    {
-        resultado += $"{notasDeDez} x 10\n";
+    static double VerificarEmprestimo(string prompt, Func<double, bool> condicao) {
+        double valor;
+        do {
+            valor = ReceberInputNumero(prompt);
+            if (!condicao(valor)) {
+                Console.WriteLine("Insira um valor válido!");
+            }
+        } while (!condicao(valor));
+        return valor;
     }
 
-    if (notasDeCinco > 0)
-    {
-        resultado += $"{notasDeCinco} x 5\n";
+    static bool IsElegivel(DateTime data, double salarioAtual, double valorEmprestimo) {
+        return (valorEmprestimo <= salarioAtual * 2) && (DateTime.Now - data).TotalDays > 1825;
     }
 
-    if (notasDeDois > 0)
-    {
-        resultado += $"{notasDeDois} x 2";
+    string CalcularNotas(double valor, int[] tiposDeNotas) {
+        string resultado = "";
+        for (int i = 0; i < tiposDeNotas.Length; i++) {
+            int qtdNotas = (int)(valor / tiposDeNotas[i]);
+            valor %= tiposDeNotas[i];
+            if (qtdNotas > 0) {
+                resultado += $"{qtdNotas} x {tiposDeNotas[i]}\n";
+            }
+        }
+        return resultado;
     }
 
-    return resultado;
-  }
+    // Method for higher denomination notes
+    string NotasMaiorValor(double valorEmprestimo) {
+        int[] tiposDeNotas = { 100, 50, 20, 10, 5, 2 };
+        return "Notas de Maior Valor\n" + CalcularNotas(valorEmprestimo, tiposDeNotas);
+    }
+
+    // Method for lower denomination notes
+    string NotasMenorValor(double valorEmprestimo) {
+        int[] tiposDeNotas = { 20, 10, 5, 2 };
+        return "Notas de Menor Valor\n" + CalcularNotas(valorEmprestimo, tiposDeNotas);
+    }
 }
