@@ -6,8 +6,8 @@ class Program {
     Program myProgram = new Program();
     String nome;
     DateTime data;
-    string format = "dd/MM/yyyy";
-    bool validInput = false;
+    string formato = "dd/MM/yyyy";
+    bool isValido = false;
     double salarioAtual, valorEmprestimo;
 
     Console.WriteLine ("Nome do colaborador:");
@@ -18,9 +18,9 @@ class Program {
         Console.WriteLine("Data de admissao (formato dd/MM/yyyy): ");
         string dataAdmissao = Console.ReadLine();
 
-        if (DateTime.TryParseExact(dataAdmissao, format, System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None, out data))
+        if (DateTime.TryParseExact(dataAdmissao, formato, System.Globalization.CultureInfo.InvariantCulture, System.Globalization.DateTimeStyles.None, out data))
         {
-            validInput = true;
+            isValido = true;
         }
         else
         {
