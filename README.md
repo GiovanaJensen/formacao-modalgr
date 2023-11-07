@@ -19,7 +19,7 @@ A linguagem Python permite a leitura, processamento e extração de dados de arq
 ## Exercício 3: C#
 
 - **Linguagem utilizada:** C#
-- **Motivos:** Legibilidade e simplicidade, tipagem forte, tratamento de erros, maior estabilidade e adequado para cálculos financeiros
+- **Motivos:** Tipagem forte, tratamento de erros, maior estabilidade e adequado para cálculos financeiros
 
 A linguagem C# suporta operações matemáticas necessárias para elegibilidade de empréstimos. Além de ajudar a reduzir potenciais erros na entrada de dados do usuário, pela declaração explícita de tipos.
 
